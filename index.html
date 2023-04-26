@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Monthly payment simulation</title>
+	<script type="text/javascript" src="index.js"></script>
+</head>
+<body>
+<span>
+<label for="capital">borrowed capital :</label>
+<input type="text" id="capital" name="capital" maxlength="20" size="15">
+</span>
+
+<br>
+<span>
+<label for="rate">annual loan rate (i.e  0.0350) :</label>
+<input type="text" id="rate" name="rate" maxlength="20" size="15">
+</span>
+
+<br>
+<span>
+<label for="years">years count :</label>
+<input type="text" id="years" name="years" maxlength="20" size="15">
+</span>
+
+<br>
+<span>
+<label for="refund">monthly repayment :</label>
+<input type="text" id="refund" name="refund" maxlength="30" size="25" disabled>
+</span>
+
+<br>
+<button onclick="myFunction()">calculate</button>
+<script type="text/javascript">
+function myFunction() {
+  var capital = document.getElementById("capital").value;  
+  var rate = document.getElementById("rate").value;  
+  var years = document.getElementById("years").value;
+  var refund = monthly_payment(capital, rate, years);
+  document.getElementById("refund").value = refund;
+}
+</script>
+</body>
+</html>
