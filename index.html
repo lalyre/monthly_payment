@@ -3,41 +3,49 @@
 <head>
 	<meta charset="utf-8">
 	<title>Monthly payment simulation</title>
-	<script type="text/javascript" src="index.js"></script>
+	<script type="text/javascript" src="./index.js"></script>
 </head>
 <body>
-<span>
+<div style="display: grid; grid-template-columns: 1fr 1fr; width: 500px;">
 <label for="capital">borrowed capital :</label>
 <input type="text" id="capital" name="capital" maxlength="20" size="15">
-</span>
 
-<br>
-<span>
 <label for="rate">annual loan rate (i.e  0.0350) :</label>
 <input type="text" id="rate" name="rate" maxlength="20" size="15">
-</span>
 
-<br>
-<span>
 <label for="years">years count :</label>
 <input type="text" id="years" name="years" maxlength="20" size="15">
-</span>
+</div>
 
-<br>
-<span>
-<label for="refund">monthly repayment :</label>
-<input type="text" id="refund" name="refund" maxlength="30" size="25" disabled>
-</span>
 
-<br>
+<div style="display: grid; grid-template-columns: 1fr 1fr; margin-top: 30px; width: 500px;">
+<label for="monthly_refund">monthly repayment :</label>
+<input type="text" id="monthly_refund" name="monthly_refund" maxlength="30" size="25" disabled>
+
+<label for="yearly_refund">yearly repayment :</label>
+<input type="text" id="yearly_refund" name="yearly_refund" maxlength="30" size="25" disabled>
+
+<label for="total_cost">total cost :</label>
+<input type="text" id="total_cost" name="total_cost" maxlength="30" size="25" disabled>
+
+<label for="credit_cost">credit cost :</label>
+<input type="text" id="credit_cost" name="credit_cost" maxlength="30" size="25" disabled>
+</div>
+
 <button onclick="myFunction()">calculate</button>
 <script type="text/javascript">
 function myFunction() {
   var capital = document.getElementById("capital").value;  
   var rate = document.getElementById("rate").value;  
   var years = document.getElementById("years").value;
-  var refund = monthly_payment(capital, rate, years);
-  document.getElementById("refund").value = refund;
+  var monthly_refund = monthly_payment(capital, rate, years);
+  var yearly_refund = yearly_payment(capital, rate, years);
+  var total_cost = yearly_refund * years;
+  var credit_cost = total_cost - capital;
+  document.getElementById("monthly_refund").value = monthly_refund;
+  document.getElementById("yearly_refund").value = yearly_refund;
+  document.getElementById("total_cost").value = total_cost;
+  document.getElementById("credit_cost").value = credit_cost;
 }
 </script>
 </body>
