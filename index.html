@@ -21,13 +21,16 @@
 <div style="display: grid; grid-template-columns: 1fr 1fr; margin-top: 30px; width: 500px;">
 <label for="monthly_refund">monthly repayment :</label>
 <input type="text" id="monthly_refund" name="monthly_refund" maxlength="30" size="25" disabled>
+<label for="monthly_cost">monthly cost :</label>
+<input type="text" id="monthly_cost" name="monthly_cost" maxlength="30" size="25" disabled>
 
 <label for="yearly_refund">yearly repayment :</label>
 <input type="text" id="yearly_refund" name="yearly_refund" maxlength="30" size="25" disabled>
+<label for="yearly_cost">yearly cost :</label>
+<input type="text" id="yearly_cost" name="yearly_cost" maxlength="30" size="25" disabled>
 
 <label for="total_cost">total cost :</label>
 <input type="text" id="total_cost" name="total_cost" maxlength="30" size="25" disabled>
-
 <label for="credit_cost">credit cost :</label>
 <input type="text" id="credit_cost" name="credit_cost" maxlength="30" size="25" disabled>
 </div>
@@ -39,11 +42,15 @@ function myFunction() {
   var rate = document.getElementById("rate").value;  
   var years = document.getElementById("years").value;
   var monthly_refund = monthly_payment(capital, rate, years);
+  var monthly_cost = monthly_refund - capital/years/12;
   var yearly_refund = yearly_payment(capital, rate, years);
+  var yearly_cost = yearly_refund - capital/years;
   var total_cost = yearly_refund * years;
   var credit_cost = total_cost - capital;
   document.getElementById("monthly_refund").value = monthly_refund;
+  document.getElementById("monthly_cost").value = monthly_cost;
   document.getElementById("yearly_refund").value = yearly_refund;
+  document.getElementById("yearly_cost").value = yearly_cost;
   document.getElementById("total_cost").value = total_cost;
   document.getElementById("credit_cost").value = credit_cost;
 }
