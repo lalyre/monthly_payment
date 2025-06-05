@@ -35,24 +35,60 @@
 <input type="text" id="credit_cost" name="credit_cost" maxlength="30" size="25" disabled>
 </div>
 
+
+<h3>Amortization Schedule</h3>
+<table id="schedule" border="1" style="margin-top: 20px;">
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Interest</th>
+      <th>Principal</th>
+      <th>Remaining Capital</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+
 <button onclick="myFunction()">calculate</button>
 <script type="text/javascript">
 function myFunction() {
-  var capital = document.getElementById("capital").value;  
-  var rate = document.getElementById("rate").value;  
-  var years = document.getElementById("years").value;
-  var monthly_refund = monthly_payment(capital, rate, years);
-  var monthly_cost = monthly_refund - capital/years/12;
-  var yearly_refund = yearly_payment(capital, rate, years);
-  var yearly_cost = yearly_refund - capital/years;
-  var total_cost = yearly_refund * years;
-  var credit_cost = total_cost - capital;
-  document.getElementById("monthly_refund").value = monthly_refund;
-  document.getElementById("monthly_cost").value = monthly_cost;
-  document.getElementById("yearly_refund").value = yearly_refund;
-  document.getElementById("yearly_cost").value = yearly_cost;
-  document.getElementById("total_cost").value = total_cost;
-  document.getElementById("credit_cost").value = credit_cost;
+	const capital = parseFloat(document.getElementById("capital").value);
+	const rate = parseFloat(document.getElementById("rate").value);
+	const years = parseInt(document.getElementById("years").value);
+	if (isNaN(capital) || isNaN(rate) || isNaN(years) || capital <= 0 || rate <= 0 || years <= 0) {
+		alert("Please enter valid positive numbers.");
+		return;
+	}
+
+	const monthly = monthly_payment(capital, rate, years);
+	const yearly = monthly * 12;
+	const total = monthly * 12 * years;
+	const cost = total - capital;
+
+	document.getElementById("monthly_refund").value = monthly.toFixed(2);
+	document.getElementById("monthly_cost").value = (monthly - capital / (years * 12)).toFixed(2);
+	document.getElementById("yearly_refund").value = yearly.toFixed(2);
+	document.getElementById("yearly_cost").value = (yearly - capital / years).toFixed(2);
+	document.getElementById("total_cost").value = total.toFixed(2);
+	document.getElementById("credit_cost").value = cost.toFixed(2);
+
+
+	const schedule = amortization_schedule(capital, rate, years);
+	const tbody = document.getElementById("schedule").querySelector("tbody");
+	tbody.innerHTML = ""; // clear previous rows
+
+	schedule.forEach(row => {
+		const tr = document.createElement("tr");
+		tr.innerHTML = `
+			<td>${row.month}</td>
+			<td>${row.interest.toFixed(2)} €</td>
+			<td>${row.principal.toFixed(2)} €</td>
+			<td>${row.remaining.toFixed(2)} €</td>
+		`;
+		tbody.appendChild(tr);
+	});
 }
 </script>
 </body>
